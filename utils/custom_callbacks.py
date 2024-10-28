@@ -17,7 +17,7 @@ except (ImportError, AssertionError):
 def on_train_start(trainer):
     uri = os.environ.get("MLFLOW_TRACKING_URI") or str(RUNS_DIR / "mlflow")
     full_path_uri = os.path.abspath(uri)
-    LOGGER.info(f"{PREFIX} tracking uri: {full_path_uri}")
+    LOGGER.info(f"{PREFIX} tracking uri saved at: {full_path_uri}")
 
 
 def on_train_epoch_end(trainer):
