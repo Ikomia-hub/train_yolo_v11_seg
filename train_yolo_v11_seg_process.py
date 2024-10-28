@@ -39,7 +39,7 @@ class TrainYoloV11SegParam(TaskParam):
         self.cfg["momentum"] = 0.937
         self.cfg["lr0"] = 0.01
         self.cfg["lrf"] = 0.01
-        self.cfg["patience"] = 100
+        self.cfg["patience"] = 300
         self.cfg["config_file"] = ""
         self.cfg["output_folder"] = os.path.dirname(
             os.path.realpath(__file__)) + "/runs/"

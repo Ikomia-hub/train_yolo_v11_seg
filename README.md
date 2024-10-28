@@ -21,7 +21,7 @@
 
 Train YOLOv11 instance segmentation models.
 
-![Desk object detection](https://raw.githubusercontent.com/Ikomia-hub/train_yolo_v11_seg/main/icons/output.jpg)
+![Desk object detection](https://raw.githubusercontent.com/Ikomia-hub/train_yolo_v11_seg/main/images/output.jpg)
 
 ## :rocket: Use with Ikomia API
 
@@ -82,7 +82,7 @@ Ikomia Studio offers a friendly UI with the same features as the API.
 - `optimizer` (str) - default '0.937': Optimizer to use, choices=[SGD, Adam, Adamax, AdamW, NAdam, RAdam, RMSProp, auto]
 - `lr0` (float) - default '0.01': Initial learning rate (i.e. SGD=1E-2, Adam=1E-3). Adjusting this value is crucial for the optimization process, influencing how rapidly model weights are updated.
 - `lr1` (float) - default '0.01': Final learning rate as a fraction of the initial rate = (lr0 * lrf), used in conjunction with schedulers to adjust the learning rate over time.
-- `patience` (int) - default '100': - Number of epochs to wait without improvement in validation metrics before early stopping the training. Helps prevent overfitting by stopping training when performance plateaus.
+- `patience` (int) - default '300': - Number of epochs to wait without improvement in validation metrics before early stopping the training. Helps prevent overfitting by stopping training when performance plateaus.
 - `output_folder` (str, *optional*): path to where the model will be saved. 
 - `config_file` (str, *optional*): path to the training config file .yaml. Using a [config file](https://github.com/ultralytics/ultralytics/blob/main/ultralytics/cfg/default.yaml) allows you to set all the train settings available. 
 
