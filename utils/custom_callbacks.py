@@ -17,6 +17,9 @@ except (ImportError, AssertionError):
 def on_train_start(trainer):
     uri = os.environ.get("MLFLOW_TRACKING_URI") or str(RUNS_DIR / "mlflow")
     full_path_uri = os.path.abspath(uri)
+    # Get the current run ID
+    run_id = mlflow.active_run().info.run_id if mlflow.active_run() else "No active run"
+    LOGGER.info(f"{PREFIX} Run ID: {run_id}")
     LOGGER.info(f"{PREFIX} tracking uri saved at: {full_path_uri}")
 
 
