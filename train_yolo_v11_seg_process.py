@@ -10,6 +10,7 @@ from ultralytics import download, settings, YOLO
 from ikomia import core, dataprocess
 from ikomia.core.task import TaskParam
 from ikomia.dnn import dnntrain
+
 from train_yolo_v11_seg.utils.ikutils import prepare_dataset
 from train_yolo_v11_seg.utils import custom_callbacks
 
@@ -25,8 +26,7 @@ class TrainYoloV11SegParam(TaskParam):
 
     def __init__(self):
         TaskParam.__init__(self)
-        dataset_folder = os.path.join(os.path.dirname(
-            os.path.realpath(__file__)), "dataset")
+        dataset_folder = os.path.join(os.path.dirname(os.path.realpath(__file__)), "dataset")
         self.cfg["dataset_folder"] = dataset_folder
         self.cfg["model_name"] = "yolo11m-seg"
         self.cfg["epochs"] = 100
@@ -41,8 +41,7 @@ class TrainYoloV11SegParam(TaskParam):
         self.cfg["lrf"] = 0.01
         self.cfg["patience"] = 300
         self.cfg["config_file"] = ""
-        self.cfg["output_folder"] = os.path.dirname(
-            os.path.realpath(__file__)) + "/runs/"
+        self.cfg["output_folder"] = os.path.join(os.path.dirname(os.path.realpath(__file__)), "runs/")
 
     def set_values(self, param_map):
         self.cfg["dataset_folder"] = str(param_map["dataset_folder"])
@@ -58,8 +57,7 @@ class TrainYoloV11SegParam(TaskParam):
         self.cfg["lrf"] = float(param_map["lrf"])
         self.cfg["patience"] = int(param_map["patience"])
         self.cfg["config_file"] = param_map["config_file"]
-        self.cfg["dataset_split_ratio"] = float(
-            param_map["dataset_split_ratio"])
+        self.cfg["dataset_split_ratio"] = float(param_map["dataset_split_ratio"])
         self.cfg["output_folder"] = str(param_map["output_folder"])
 
 
@@ -117,10 +115,9 @@ class TrainYoloV11Seg(dnntrain.TrainProcess):
             self.model_weights = config_file["model"]
         else:
             # Set path
-            model_folder = os.path.join(os.path.dirname(
-                os.path.realpath(__file__)), "weights")
-            self.model_weights = os.path.join(
-                str(model_folder), f'{param.cfg["model_name"]}.pt')
+            model_folder = os.path.join(os.path.dirname(os.path.realpath(__file__)), "weights")
+            self.model_weights = os.path.join(str(model_folder), f'{param.cfg["model_name"]}.pt')
+
             # Download model if not exist
             if not os.path.isfile(self.model_weights):
                 url = f'https://github.com/{self.repo}/releases/download/{self.version}/{param.cfg["model_name"]}.pt'
@@ -139,8 +136,7 @@ class TrainYoloV11Seg(dnntrain.TrainProcess):
         # Create output folder
         experiment_name = f"{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         os.makedirs(param.cfg["output_folder"], exist_ok=True)
-        output_folder = os.path.join(
-            param.cfg["output_folder"], experiment_name)
+        output_folder = os.path.join(param.cfg["output_folder"], experiment_name)
         os.makedirs(output_folder, exist_ok=True)
 
         # Train the model
@@ -191,7 +187,8 @@ class TrainYoloV11SegFactory(dataprocess.CTaskFactory):
         self.info.short_description = "Train YOLOv11 instance segmentation models."
         # relative path -> as displayed in Ikomia application process tree
         self.info.path = "Plugins/Python/Instance Segmentation"
-        self.info.version = "1.0.0"
+        self.info.version = "1.1.0"
+        self.info.min_ikomia_version = "0.15.0"
         self.info.icon_path = "images/icon.png"
         self.info.authors = "Jocher, G., Chaurasia, A., & Qiu, J"
         self.info.article = "YOLO by Ultralytics"
@@ -207,6 +204,11 @@ class TrainYoloV11SegFactory(dataprocess.CTaskFactory):
         self.info.keywords = "YOLO, instance, segmentation, ultralytics, coco"
         self.info.algo_type = core.AlgoType.TRAIN
         self.info.algo_tasks = "INSTANCE_SEGMENTATION"
+        # Min hardware config
+        self.info.hardware_config.min_cpu = 4
+        self.info.hardware_config.min_ram = 16
+        self.info.hardware_config.gpu_required = True
+        self.info.hardware_config.min_vram = 16
 
     def create(self, param=None):
         # Create algorithm object
